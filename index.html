@@ -2,144 +2,113 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>Yêu cầu truy cập</title>
+  <title>Yêu Cầu Quyền Truy Cập</title>
   <style>
     html, body {
       margin: 0; padding: 0; height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(to bottom, #1e3c72, #2a5298);
-      font-family: 'Segoe UI', sans-serif;
-      display: flex; justify-content: center; align-items: center;
-      color: white; text-align: center; overflow: hidden;
-      user-select: none;
-      flex-direction: column;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    #requestAccess, #adminPanel, #content {
+      background: rgba(255,255,255,0.1);
+      border-radius: 15px;
       padding: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      max-width: 400px;
+      text-align: center;
+      user-select: none;
     }
-    #requestAccessBtn {
-      padding: 12px 25px;
-      background: #fcd34d;
-      border: none;
-      border-radius: 10px;
-      color: #000;
+    #requestAccess {
+      display: block;
+    }
+    #adminPanel {
+      display: none;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-top: 20px;
+      font-size: 0.9rem;
+    }
+    button {
+      padding: 10px 20px;
       font-weight: bold;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 1.2rem;
-      box-shadow: 0 0 10px #fcd34daa;
+      background: #fcd34d;
+      color: #000;
+      margin-top: 15px;
+      user-select: none;
       transition: background 0.3s ease;
-      margin-bottom: 15px;
     }
-    #requestAccessBtn:hover {
-      background: #facc15;
+    button:hover {
+      background: #eab308;
     }
-    #notification {
-      min-height: 22px;
-      font-size: 1.1rem;
-      color: #fcd34d;
-      margin-bottom: 20px;
+    .access-item {
+      background: rgba(255,255,255,0.2);
+      margin: 5px 0;
+      padding: 8px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      word-break: break-word;
+    }
+    .access-ip {
+      flex: 1;
+      text-align: left;
+    }
+    .approve-btn {
+      background: #22c55e;
+      color: white;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+    }
+    .approve-btn:hover {
+      background: #16a34a;
     }
     #content {
       display: none;
       max-width: 500px;
       padding: 2rem;
-      background: rgba(255, 255, 255, 0.05);
       border-radius: 20px;
       backdrop-filter: blur(10px);
       box-shadow: 0 0 20px rgba(0,0,0,0.2);
-      color: white;
-      user-select: text;
-      position: relative;
-      text-align: left;
-      line-height: 1.6;
-    }
-    #content h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
       color: #fcd34d;
-      text-align: center;
-    }
-    #content p {
-      font-size: 1.2rem;
-      white-space: pre-line;
     }
     .heart {
       font-size: 2rem;
       margin-top: 1rem;
-      animation: beat 1.2s infinite;
       color: #f43f5e;
-      text-align: center;
-    }
-    @keyframes beat {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-    }
-    /* Ảnh nhỏ góc phải */
-    #smallImage {
-      position: fixed;
-      bottom: 15px;
-      right: 15px;
-      width: 80px;
-      height: auto;
-      border-radius: 10px;
-      box-shadow: 0 0 8px #0008;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      pointer-events: none;
-      z-index: 1000;
-    }
-    /* Admin Panel */
-    #adminPanel {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      background: rgba(0,0,0,0.85);
-      border: 2px solid #fcd34d;
-      border-radius: 10px;
-      padding: 15px;
-      width: 320px;
-      max-height: 80vh;
-      overflow-y: auto;
-      color: #fcd34d;
-      font-size: 14px;
-      display: none;
-      z-index: 2000;
-      user-select: text;
-    }
-    #adminPanel h2 {
-      margin-top: 0;
-      font-size: 20px;
-      text-align: center;
-      margin-bottom: 10px;
-    }
-    #adminPanel table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    #adminPanel th, #adminPanel td {
-      border: 1px solid #fcd34d;
-      padding: 6px 8px;
-      text-align: center;
-    }
-    #adminPanel button.approveBtn {
-      background: #fcd34d;
-      border: none;
-      color: black;
-      font-weight: bold;
-      border-radius: 6px;
-      padding: 4px 8px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    #adminPanel button.approveBtn:hover {
-      background: #facc15;
     }
   </style>
 </head>
 <body>
 
-  <button id="requestAccessBtn">YÊU CẦU QUYỀN TRUY CẬP</button>
-  <div id="notification"></div>
+  <!-- Nút yêu cầu quyền truy cập -->
+  <div id="requestAccess">
+    <h2>🔒 YÊU CẦU QUYỀN TRUY CẬP</h2>
+    <button id="requestBtn">Gửi yêu cầu</button>
+    <p><small>Nhấn nút để gửi yêu cầu truy cập. Admin sẽ duyệt trong thời gian sớm nhất.</small></p>
+  </div>
 
+  <!-- Bảng phê duyệt của Admin (ẩn mặc định, hiện khi nhấn P) -->
+  <div id="adminPanel">
+    <h3>📋 Bảng phê duyệt truy cập</h3>
+    <div id="requestsList"></div>
+    <p><small>Nhấn phím P để ẩn/hiện bảng này.</small></p>
+  </div>
+
+  <!-- Nội dung xin lỗi (hiện khi được phê duyệt) -->
   <div id="content">
-    <h1>Anh xin lỗi...</h1>
+    <h1>Tớ xin lỗi...</h1>
     <p>
       Anh xin lỗi vì chuyện hôm nọ nhé. Anh không cố ý đâu, tại anh vô tâm quá. Mong em đừng buồn nữa nha!<br>
       Anh xin lỗi vì đã làm em buồn. Anh nhận biết được điều đó là sai rồi ..!
@@ -147,29 +116,12 @@
     <div class="heart">💔</div>
   </div>
 
-  <img id="smallImage" src="https://i.postimg.cc/cHZhT8zk/5-2-1.png" alt="Game Image" />
-
-  <!-- Admin Panel -->
-  <div id="adminPanel">
-    <h2>Admin Panel - Danh sách yêu cầu</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>IP</th>
-          <th>Thời gian</th>
-          <th>Hành động</th>
-        </tr>
-      </thead>
-      <tbody id="requestsTableBody"></tbody>
-    </table>
-    <p><i>Nhấn phím P để ẩn/hiện bảng này</i></p>
-  </div>
-
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
   <script>
+    // Cấu hình Firebase (thay bằng của bạn)
     const firebaseConfig = {
       apiKey: "AIzaSyCtJtabQIwEl_lUO8vIpeQgp4OyMtcXjkw",
       authDomain: "login-a2878.firebaseapp.com",
@@ -181,182 +133,128 @@
       measurementId: "G-7DRBRBRJHL"
     };
 
-    const webhookURL = "https://discord.com/api/webhooks/1377288272681762987/jN32jNiowBMlbr8LPOLG_HqthF1_epQKoSKG0pHTLr9glr1fVp342oAO1K-JH0I8VyT8";
-
+    // Khởi tạo Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    const requestAccessBtn = document.getElementById('requestAccessBtn');
-    const notification = document.getElementById('notification');
-    const content = document.getElementById('content');
-    const smallImage = document.getElementById('smallImage');
+    const requestBtn = document.getElementById("requestBtn");
+    const requestAccessDiv = document.getElementById("requestAccess");
+    const adminPanel = document.getElementById("adminPanel");
+    const requestsList = document.getElementById("requestsList");
+    const contentDiv = document.getElementById("content");
 
-    const adminPanel = document.getElementById('adminPanel');
-    const requestsTableBody = document.getElementById('requestsTableBody');
+    // Lưu IP người dùng, trạng thái duyệt
+    let userIP = null;
+    let userKey = null; // key trong Firebase để theo dõi
 
-    let userIp = null;
-    let approved = false;
-    let imageTimeout;
-
+    // Lấy IP người dùng qua api.ipify.org
     async function getUserIP() {
       try {
-        const res = await fetch('https://api.ipify.org?format=json');
+        const res = await fetch("https://api.ipify.org?format=json");
         const data = await res.json();
         return data.ip;
       } catch {
-        return null;
+        return "0.0.0.0";
       }
     }
 
-    function sendWebhook(ip) {
-      fetch(webhookURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          content: `🔔 Yêu cầu truy cập mới từ IP: ${ip}`
-        }),
-      });
-    }
+    // Gửi IP lên Firebase và Discord webhook
+    async function sendRequest(ip) {
+      // Tạo key mới trong DB
+      const newKey = db.ref('requests').push().key;
 
-    function sendRequest(ip) {
-      const requestRef = db.ref('requests/' + ip);
-      requestRef.set({
+      // Ghi request với trạng thái pending (chưa duyệt)
+      await db.ref('requests/' + newKey).set({
         ip: ip,
+        approved: false,
         timestamp: Date.now()
       });
+
+      userKey = newKey;
+
+      // Gửi webhook Discord
+      const webhookURL = "https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN"; // Thay webhook thật vào đây
+      const content = {
+        content: `📢 Người dùng yêu cầu truy cập:\nIP: ${ip}\nThời gian: ${new Date().toLocaleString()}`
+      };
+      try {
+        await fetch(webhookURL, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(content)
+        });
+      } catch(e) {
+        console.warn("Không gửi được webhook", e);
+      }
     }
 
-    function showContent() {
-      content.style.display = 'block';
-      requestAccessBtn.style.display = 'none';
-      notification.textContent = "";
+    // Hiển thị yêu cầu truy cập (admin)
+    function renderRequests(data) {
+      requestsList.innerHTML = "";
+      if (!data) return;
+      Object.entries(data).forEach(([key, val]) => {
+        if (val.approved) return; // Không hiện request đã duyệt
+        const div = document.createElement("div");
+        div.className = "access-item";
 
-      clearTimeout(imageTimeout);
-      smallImage.style.opacity = '1';
-      imageTimeout = setTimeout(() => {
-        smallImage.style.opacity = '0';
-      }, 5000);
+        const spanIP = document.createElement("div");
+        spanIP.className = "access-ip";
+        spanIP.textContent = val.ip;
+
+        const btnApprove = document.createElement("button");
+        btnApprove.className = "approve-btn";
+        btnApprove.textContent = "Phê duyệt";
+        btnApprove.onclick = () => {
+          db.ref('requests/' + key).update({ approved: true });
+        };
+
+        div.appendChild(spanIP);
+        div.appendChild(btnApprove);
+        requestsList.appendChild(div);
+      });
     }
 
-    async function listenApproval(ip) {
-      if (!ip) return;
-      db.ref('approved/' + ip).on('value', snapshot => {
-        if (snapshot.exists()) {
-          approved = true;
-          showContent();
-          notification.textContent = "Bạn đã được phê duyệt!";
+    // Kiểm tra trạng thái duyệt của user
+    function watchApproval(key) {
+      if (!key) return;
+      const ref = db.ref('requests/' + key + '/approved');
+      ref.on('value', snapshot => {
+        if (snapshot.val() === true) {
+          // Được phê duyệt
+          requestAccessDiv.style.display = "none";
+          contentDiv.style.display = "block";
         }
       });
     }
 
-    requestAccessBtn.onclick = async () => {
-      notification.textContent = "";
-      userIp = await getUserIP();
-      if (!userIp) {
-        notification.textContent = "Không lấy được IP, vui lòng thử lại.";
+    // Xử lý nút yêu cầu quyền
+    requestBtn.onclick = async () => {
+      if (userKey) {
+        alert("Bạn đã gửi yêu cầu rồi, vui lòng chờ admin phê duyệt.");
         return;
       }
-
-      // Kiểm tra nếu đã duyệt rồi thì hiện nội dung luôn, không gửi webhook nữa
-      const approvedSnap = await db.ref('approved/' + userIp).once('value');
-      if (approvedSnap.exists()) {
-        approved = true;
-        showContent();
-        notification.textContent = "Bạn đã được phê duyệt!";
-        listenApproval(userIp);
-        return;
-      }
-
-      // Gửi yêu cầu mới
-      sendRequest(userIp);
-
-      // Gửi webhook chỉ khi chưa duyệt
-      sendWebhook(userIp);
-
-      notification.textContent = "Yêu cầu đã gửi, vui lòng chờ phê duyệt.";
-      listenApproval(userIp);
+      userIP = await getUserIP();
+      await sendRequest(userIP);
+      watchApproval(userKey);
+      alert("Đã gửi yêu cầu, vui lòng chờ admin phê duyệt.");
     };
 
-    (async () => {
-      userIp = await getUserIP();
-      if (!userIp) return;
-      const approvedSnap = await db.ref('approved/' + userIp).once('value');
-      if (approvedSnap.exists()) {
-        approved = true;
-        showContent();
-      }
-      listenApproval(userIp);
-    })();
-
-    // Admin panel toggle bằng phím P
-    window.addEventListener('keydown', e => {
+    // Admin nhấn phím P để bật/tắt bảng phê duyệt
+    document.addEventListener("keydown", e => {
       if (e.key.toLowerCase() === 'p') {
-        adminPanel.style.display = adminPanel.style.display === 'block' ? 'none' : 'block';
-        if (adminPanel.style.display === 'block') {
-          loadRequests();
+        if (adminPanel.style.display === "none") {
+          adminPanel.style.display = "block";
+        } else {
+          adminPanel.style.display = "none";
         }
       }
     });
 
-    // Load danh sách yêu cầu từ Firebase
-    function loadRequests() {
-      requestsTableBody.innerHTML = '';
-      db.ref('requests').once('value').then(snapshot => {
-        const requests = snapshot.val();
-        if (!requests) {
-          requestsTableBody.innerHTML = '<tr><td colspan="3">Không có yêu cầu nào</td></tr>';
-          return;
-        }
+    // Lắng nghe thay đổi requests realtime (dành cho admin)
+    db.ref('requests').on('value', snapshot => {
+      renderRequests(snapshot.val());
+    });
 
-        // Lấy danh sách approved để không show IP đã duyệt
-        db.ref('approved').once('value').then(approvedSnap => {
-          const approvedIPs = approvedSnap.val() || {};
-
-          Object.entries(requests).forEach(([ip, data]) => {
-            if (approvedIPs[ip]) return; // Bỏ qua IP đã duyệt
-
-            const tr = document.createElement('tr');
-
-            const tdIp = document.createElement('td');
-            tdIp.textContent = ip;
-
-            const tdTime = document.createElement('td');
-            const timeStr = new Date(data.timestamp).toLocaleString('vi-VN');
-            tdTime.textContent = timeStr;
-
-            const tdAction = document.createElement('td');
-            const approveBtn = document.createElement('button');
-            approveBtn.textContent = 'Phê duyệt';
-            approveBtn.className = 'approveBtn';
-            approveBtn.onclick = () => approveIp(ip);
-            tdAction.appendChild(approveBtn);
-
-            tr.appendChild(tdIp);
-            tr.appendChild(tdTime);
-            tr.appendChild(tdAction);
-
-            requestsTableBody.appendChild(tr);
-          });
-
-          // Nếu không còn IP chờ
-          if (requestsTableBody.children.length === 0) {
-            requestsTableBody.innerHTML = '<tr><td colspan="3">Không có yêu cầu nào</td></tr>';
-          }
-        });
-      });
-    }
-
-    // Duyệt IP
-    function approveIp(ip) {
-      db.ref('approved/' + ip).set(true)
-        .then(() => {
-          alert(`Đã phê duyệt IP: ${ip}`);
-          loadRequests();
-        })
-        .catch(err => {
-          alert('Lỗi khi phê duyệt: ' + err.message);
-        });
-    }
   </script>
 
 </body>
